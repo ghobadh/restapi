@@ -12,6 +12,7 @@ import java.util.List;
  * @author gavinhashemi on 2024-11-06
  */
 @RestController
+@RequestMapping("/students")
 public class StudentController {
 
 
@@ -43,7 +44,7 @@ public class StudentController {
 
 
 
-    @GetMapping("/students")
+    @GetMapping
     public List<Student> getStudents(){
         List<Student> students = new ArrayList<>();
         students.add(new Student(1L, "John", "Doe"));
@@ -67,7 +68,7 @@ public class StudentController {
     }
 
     //Spring Boot REST API with PAth Variable
-    @GetMapping("students/{id}/{firstName}/{lastName}")
+    @GetMapping("/{id}/{firstName}/{lastName}")
     public ResponseEntity<Student> studentPathVariable(@PathVariable("id") int studentId,
                                        @PathVariable String firstName,
                                        @PathVariable String lastName){
@@ -77,7 +78,7 @@ public class StudentController {
 
     //Spring Boot REST API with Request Param
     //example: http://localhost:8080/students/query?id=1&firstname=Gargamel&lastname=Izreal
-    @GetMapping("/students/query")
+    @GetMapping("/query")
     public ResponseEntity<Student> getStudentById(@RequestParam("id")  long studentId,
                                   @RequestParam String firstname,
                                   @RequestParam String lastname){
@@ -88,7 +89,7 @@ public class StudentController {
 
         //Spring Boot REST API that handle HTTP POST Request - Creating new resource
         // @PostMapping and @RequestBody
-    @PostMapping("students/create")
+    @PostMapping("/create")
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<Student> createStudent(@RequestBody Student student){
         System.out.println(student.getId());
@@ -99,7 +100,7 @@ public class StudentController {
 
     //String Boot REST API that handle HTTP PUT Request - Updating existing Resoure
     //example: http://localhost:8080/students/76/update
-    @PutMapping("students/{id}/update")
+    @PutMapping("/{id}/update")
     //@ResponseStatus(HttpStatus.OK) <-- Since I added ResponseEntity class and I can put
     // the HTTP 200 with ok() method , I don't need this anymore
     public ResponseEntity<Student> updateStudent(@RequestBody Student student, @PathVariable("id") Long studentID){
@@ -112,7 +113,7 @@ public class StudentController {
 
     //String Boot REST API that handle HTTP DELETE Request - deleting existing resource
     //example: http://localhost:8080/students/76/delete
-    @DeleteMapping("students/{id}/delete")
+    @DeleteMapping("/{id}/delete")
     public ResponseEntity<String> deleteStudent(@PathVariable("id") Long studentID){
         return ResponseEntity.ok("Student with id " + studentID + " deleted");
     }
